@@ -32,7 +32,7 @@ dotnet ef database update --project UsersApi --startup-project UsersApi
 
 6. Run the project with the following command:
 ```shell
-dotnet run --project src/Api
+dotnet run 
 ```
 
 
