@@ -1,19 +1,16 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using UsersApi.Data;
+using UsersApi.DependencyInjections;
+using UsersApi.MiddleWares;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddDbContext<AppDbContext>(option =>
-{
-    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-
+builder.Services.AddAppData(builder.Configuration);
+builder.Services.AddMapster();
+builder.Services.AddAppServices();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -32,7 +29,7 @@ app.UseCors(x =>
 });
 
 
-
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseRouting();
 app.MapControllers();
 
