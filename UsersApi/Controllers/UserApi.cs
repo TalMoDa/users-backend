@@ -21,7 +21,6 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using UsersApi.Attributes;
 using UsersApi.Models;
-using UsersApi.Services.Interfaces;
 
 namespace UsersApi.Controllers
 { 
@@ -31,13 +30,6 @@ namespace UsersApi.Controllers
     [ApiController]
     public class UserApiController : ControllerBase
     { 
-        private readonly IUsersService _usersService;
-
-        public UserApiController(IUsersService usersService)
-        {
-            _usersService = usersService;
-        }
-
         /// <summary>
         /// Create a new user
         /// </summary>
@@ -53,7 +45,17 @@ namespace UsersApi.Controllers
         [SwaggerResponse(statusCode: 201, type: typeof(UserDto), description: "User created")]
         public virtual async Task<IActionResult> CreateUser([FromBody]CreateUserRequestDto createUserRequestDto, CancellationToken cancellationToken)
         {
-            return Ok(await _usersService.CreateAsync(createUserRequestDto, cancellationToken));
+
+            //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(201, default(UserDto));
+            string exampleJson = null;
+            exampleJson = "{\r\n  \"phone\" : \"phone\",\r\n  \"name\" : \"name\",\r\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\r\n  \"email\" : \"email\"\r\n}";
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<UserDto>(exampleJson)
+            : default(UserDto);
+            //TODO: Change the data returned
+            return await Task.FromResult<IActionResult>(new ObjectResult(example));
         }
 
         /// <summary>
@@ -69,8 +71,11 @@ namespace UsersApi.Controllers
         [SwaggerOperation("DeleteUserById")]
         public virtual async Task<IActionResult> DeleteUserById([FromRoute (Name = "id")][Required]Guid id, CancellationToken cancellationToken)
         {
-            await _usersService.DeleteAsync(id, cancellationToken);
-            return NoContent();
+
+            //TODO: Uncomment the next line to return response 204 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(204);
+
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -87,7 +92,17 @@ namespace UsersApi.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(UserDto), description: "A user")]
         public virtual async Task<IActionResult> GetUserById([FromRoute (Name = "id")][Required]Guid id, CancellationToken cancellationToken)
         {
-            return Ok(await _usersService.GetByIdAsync(id, cancellationToken));
+
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default(UserDto));
+            string exampleJson = null;
+            exampleJson = "{\r\n  \"phone\" : \"phone\",\r\n  \"name\" : \"name\",\r\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\r\n  \"email\" : \"email\"\r\n}";
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<UserDto>(exampleJson)
+            : default(UserDto);
+            //TODO: Change the data returned
+            return await Task.FromResult<IActionResult>(new ObjectResult(example));
         }
 
         /// <summary>
@@ -103,25 +118,46 @@ namespace UsersApi.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(List<UserDto>), description: "A list of users")]
         public virtual async Task<IActionResult> GetUsers(CancellationToken cancellationToken)
         {
-            return Ok(await _usersService.GetAllAsync(cancellationToken));
+
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default(List<UserDto>));
+            string exampleJson = null;
+            exampleJson = "[ {\r\n  \"phone\" : \"phone\",\r\n  \"name\" : \"name\",\r\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\r\n  \"email\" : \"email\"\r\n}, {\r\n  \"phone\" : \"phone\",\r\n  \"name\" : \"name\",\r\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\r\n  \"email\" : \"email\"\r\n} ]";
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<List<UserDto>>(exampleJson)
+            : default(List<UserDto>);
+            //TODO: Change the data returned
+            return await Task.FromResult<IActionResult>(new ObjectResult(example));
         }
 
         /// <summary>
         /// Update a user by id
         /// </summary>
         /// <remarks>Updates a user by id</remarks>
+        /// <param name="id">The user id</param>
         /// <param name="userDto">User to update</param>
         /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
         /// <response code="200">User updated</response>
         [HttpPut]
-        [Route("/user")]
+        [Route("/user/{id}")]
         [Consumes("application/json")]
         [ValidateModelState]
-        [SwaggerOperation("UpdateUser")]
+        [SwaggerOperation("UpdateUserById")]
         [SwaggerResponse(statusCode: 200, type: typeof(UserDto), description: "User updated")]
-        public virtual async Task<IActionResult> UpdateUser([FromBody]UserDto userDto, CancellationToken cancellationToken)
+        public virtual async Task<IActionResult> UpdateUserById([FromRoute (Name = "id")][Required]Guid id, [FromBody]UserDto userDto, CancellationToken cancellationToken)
         {
-            return Ok(await _usersService.UpdateAsync(userDto, cancellationToken));
+
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default(UserDto));
+            string exampleJson = null;
+            exampleJson = "{\r\n  \"phone\" : \"phone\",\r\n  \"name\" : \"name\",\r\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\r\n  \"email\" : \"email\"\r\n}";
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<UserDto>(exampleJson)
+            : default(UserDto);
+            //TODO: Change the data returned
+            return await Task.FromResult<IActionResult>(new ObjectResult(example));
         }
     }
 }
