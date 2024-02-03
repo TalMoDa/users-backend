@@ -5,3 +5,4 @@
 /.vs
 /users-backend/.vs/users-backend
 /users-backend/.vs
+/users-backend/CrudAPI/obj/Debug/net8.0
